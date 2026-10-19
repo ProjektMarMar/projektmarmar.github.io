@@ -113,3 +113,21 @@ box-sizing: border-box;
 .bildcenter{
     padding-top: 50px;
 }
+
+button{
+    width: 100%;
+    display: inline-block;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin-top: 2px;
+    font-weight: bold;
+    color: white;
+    background-color: #6AA84F;
+    border: none;
+}
+
+button.hover{
+    background-color: #83d161;
+    margin-left: 7px;
+}
