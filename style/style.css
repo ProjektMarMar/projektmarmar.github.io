@@ -73,6 +73,9 @@ box-sizing: border-box;
     height: 100%;
     background-color: #3C78D8;
     background-image: linear-gradient(#3C78D8,#8E7CC3);
+    text-align: center;
+    max-height: 100%;
+    overflow-y: auto;
 }
 
 #footer{
@@ -92,6 +95,14 @@ box-sizing: border-box;
 
 .textlink:hover{
     color: black;
+}
+
+.textlink2{
+      color: #3C78D8;
+}
+
+.textlink2:hover{
+    color: #225099;
 }
 
 .link{
@@ -115,7 +126,6 @@ box-sizing: border-box;
     display: inline-block;
     padding-top: 5px;
     padding-bottom: 5px;
-    text-align: center;
     margin-top: 2px;
     font-weight: bold;
     color: white;
@@ -126,6 +136,33 @@ box-sizing: border-box;
     font-size: 104%;
 }
 
+.link3{
+    width: 100%;
+    display: inline-block;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-top: 2px;
+    font-size: smaller;
+    color: white;
+}
+
+.link3:hover{
+    background-color: #5587d8;
+    font-size: 104%;
+}
+
+.tabellenlink{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.tabellenlink:hover{
+    font-size: 104%;
+    color: black;
+    background-color: #FFD966;
+}
+
 .absatzcenter{
     text-align: left;
     margin-left: 14%;
@@ -133,9 +170,43 @@ box-sizing: border-box;
     padding-top: 5px;
     padding-bottom: 10px;
     font-size: 2ch;
-    border-bottom-color: black;
-    border-bottom-width: 2px;
-    border-bottom-style: dashed;
+}
+
+.absatzgames{
+    text-align: left;
+    margin-left: 10%;
+    font-size: 2ch;
+}
+
+.infobox{
+    float: right;
+    width: 33%;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.bildinfos{
+    text-align: right;
+    font-size: small;
+    margin-bottom: 5px;
+}
+
+.infotext{
+    padding-left: 5px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.infotextattribut{
+    border: none;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.infotextname{
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .headline{
@@ -192,8 +263,44 @@ button.hover{
     border-style: solid;
     border-color: black;
     padding: 0;
-    margin: 10px;
+    margin: 0;
+    margin-left: 10px;
+    margin-bottom: 5px;
     border-collapse: collapse;
+}
+
+.guides{
+    width: 60%;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    padding: 0;
+    margin: 0;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    border-collapse: collapse;
+}
+
+.guidesname{
+    width: 25%;
+}
+
+.reviews{
+    width: 60%;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    padding: 0;
+    margin: 0;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    border-collapse: collapse;
+}
+
+.reviewsname{
+    width: 25%;
 }
 
 tr:nth-child(even){
