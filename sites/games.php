@@ -1,3 +1,7 @@
+<?php
+session_name('marmar');
+session_start();
+?>
 <html lang="de">
 <head>
 <title>ProjektMarMar</title>
@@ -8,13 +12,19 @@
     <div id="content">
         <div id="kopf">
             <div id="titel">
+                <div style="display:<?php echo (!isset ($_SESSION['logged_in']) || $_SESSION['logged_in'] === false ) ? 'block' : 'none'; ?>" >
+                    <a href="login.html" id="anmeldebutton">Login &#9874;</a>
+                </div>
+                <div style="display:<?php echo (isset ($_SESSION['logged_in']) && $_SESSION['logged_in'] === true ) ? 'block' : 'none'; ?>" >
+                    <a href="../php/logout.php" id="anmeldebutton">Logout &#8614;</a>
+                </div>
                 <img src="../src/MarMarLogo.png" alt="MarMar Logo" style="width: auto; height: 80px;">
             </div>
         </div>
         <div id="körper">
             <div class="block" id="nav">
-                <a href="../index.html" class="link">Startseite</a>
-                <a href="marmar.html" class="link">Der MarMar</a>
+                <a href="../index.php" class="link">Startseite</a>
+                <a href="marmar.php" class="link">Der MarMar</a>
                 <a href="" class="chosen">Games</a>
             </div>
             <div class="block" id="inhaltgames">
@@ -38,8 +48,8 @@
                             <th>Guide vorhanden?</th>
                             <th>Review vorhanden?</th>
                             <tr>
-                                <td class="gamesName"><a href="games/0001.html" class="tabellenlink">Super Mario Bros.</a></td>
-                                <td class="gamesIcon"><a href="games/0001.html"><img src="../src/listIcons/Icon_SuperMarioBros.png" alt="SuperMarioBros. Titlescreen" style="width: auto; height: 25px;"></a></td>
+                                <td class="gamesName"><a href="games/0001.php" class="tabellenlink">Super Mario Bros.</a></td>
+                                <td class="gamesIcon"><a href="games/0001.php"><img src="../src/listIcons/Icon_SuperMarioBros.png" alt="SuperMarioBros. Titlescreen" style="width: auto; height: 25px;"></a></td>
                                 <td class="checkmark"><img src="../src/checkFalse.png" alt="false Checkmark" style="width: auto; height: 20px;"></td>
                                 <td class="checkmark"><img src="../src/checkFalse.png" alt="false Checkmark" style="width: auto; height: 20px;"></td>
                                 <td class="checkmark"><img src="../src/checkFalse.png" alt="false Checkmark" style="width: auto; height: 20px;"></td>

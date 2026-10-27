@@ -1,3 +1,16 @@
+<?php
+session_name('marmar');
+session_start();
+$username = $_POST['username'] ?? '';
+$password = $_POST['password'] ?? '';
+
+if($username == 'Solid' && $password == '12'){
+    $_SESSION['logged_in'] = true;
+    header("Location: ../sites/games.php");
+    exit;
+} 
+?>
+
 <html lang="de">
 <head>
 <title>ProjektMarMar</title>
@@ -13,11 +26,12 @@
         </div>
         <div id="körper">
             <div class="block" id="nav">
-                <button onclick="history.back()">Zurück</button>
+                <a href="../sites/login.php" class="link">Zurück zur Anmeldung</a>
             </div>
             <div class="block" id="inhalt">
                 <div class="absatzcenter">
-                    Es ist ein Fehler aufgetreten!
+                    Login fehlgeschlagen!<br>
+                    Benutzername oder Passwort falsch
                 </div>
             </div>
             <div class="block" id="navright">

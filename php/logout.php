@@ -1,3 +1,11 @@
+<?php
+session_name('marmar');
+session_start();
+
+$_SESSION['logged_in'] = false;
+ 
+?>
+
 <html lang="de">
 <head>
 <title>ProjektMarMar</title>
@@ -13,11 +21,11 @@
         </div>
         <div id="körper">
             <div class="block" id="nav">
-                <button onclick="history.back()">Zurück</button>
+                <a href="../index.php" class="link">Zurück zur Startseite</a>
             </div>
             <div class="block" id="inhalt">
                 <div class="absatzcenter">
-                    YIPPIE Angemeldet!!!
+                    Erfolgreich abgemeldet!<br>
                 </div>
             </div>
             <div class="block" id="navright">

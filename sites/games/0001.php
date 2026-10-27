@@ -1,3 +1,7 @@
+<?php
+session_name('marmar');
+session_start();
+?>
 <html lang="de">
 <head>
 <title>ProjektMarMar</title>
@@ -8,12 +12,18 @@
     <div id="content">
         <div id="kopf">
             <div id="titel">
+                <div style="display:<?php echo (!isset ($_SESSION['logged_in']) || $_SESSION['logged_in'] === false ) ? 'block' : 'none'; ?>" >
+                    <a href="../login.html" id="anmeldebutton">Login &#9874;</a>
+                </div>
+                <div style="display:<?php echo (isset ($_SESSION['logged_in']) && $_SESSION['logged_in'] === true ) ? 'block' : 'none'; ?>" >
+                    <a href="../../php/logout.php" id="anmeldebutton">Logout &#8614;</a>
+                </div>
                 <img src="../../src/MarMarLogo.png" alt="MarMar Logo" style="width: auto; height: 80px;">
             </div>
         </div>
         <div id="körper">
             <div class="block" id="nav">
-                <a href="../games.html" class="link">Zurück zur Übersicht</a>
+                <a href="../games.php" class="link">Zurück zur Übersicht</a>
             </div>
             <div class="block" id="inhalt">
                 <div class="absatzgames">
