@@ -1,14 +1,30 @@
 <?php
+require_once __DIR__ . '/../vendor/autoload.php';
+$env = parse_ini_file ('../env/data.env');
 session_name('marmar');
 session_start();
+
+$uri = $env['MONGODB_URI'];
+$client = new MongoDB\Client($uri);
+$collection = $client->security->loginitem;
+
 $username = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
 
-if($username == 'Solid' && $password == '12'){
-    $_SESSION['logged_in'] = true;
-    header("Location: ../sites/games.php");
-    exit;
-} 
+$filter = ['name' => $username];
+$result = $collection->findOne($filter);
+
+if($result){
+    echo json_encode($result, JSON_PRETTY_PRINT);
+} else {
+    echo 'Document not found';
+}
+
+#if($username == 'Solid' && $password == '12'){
+#    $_SESSION['logged_in'] = true;
+#    header("Location: ../sites/games.php");
+#    exit;
+#} 
 ?>
 
 <html lang="de">
@@ -26,7 +42,7 @@ if($username == 'Solid' && $password == '12'){
         </div>
         <div id="körper">
             <div class="block" id="nav">
-                <a href="../sites/login.php" class="link">Zurück zur Anmeldung</a>
+                <a href="../sites/login.html" class="link">Zurück zur Anmeldung</a>
             </div>
             <div class="block" id="inhalt">
                 <div class="absatzcenter">
