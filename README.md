@@ -1,2 +1,2 @@
 # projektmarmar.github.io
-Eine Website für den Gamging-Marathon meiner Freunde und mir
+Eine Website für den Gaming-Marathon meiner Freunde und mir
