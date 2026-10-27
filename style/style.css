@@ -41,6 +41,7 @@ box-sizing: border-box;
 
 #titel{
     padding: 5px;
+    margin-left: 30px;
 }
 
 .block{
@@ -224,6 +225,7 @@ box-sizing: border-box;
 
 .bildcenter{
     padding-top: 50px;
+    font-size: smaller;
 }
 
 button{
@@ -239,7 +241,7 @@ button{
     border: none;
 }
 
-button.hover{
+button:hover{
     background-color: #83d161;
     width:104%;
 }
@@ -269,7 +271,7 @@ button.hover{
     border-collapse: collapse;
 }
 
-.guides{
+#guides{
     width: 60%;
     text-align: center;
     border-width: 1px;
@@ -286,7 +288,7 @@ button.hover{
     width: 25%;
 }
 
-.reviews{
+#reviews{
     width: 60%;
     text-align: center;
     border-width: 1px;
@@ -301,6 +303,27 @@ button.hover{
 
 .reviewsname{
     width: 25%;
+}
+
+.speedruns{
+    width: 60%;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    padding: 0;
+    margin: 0;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    border-collapse: collapse;
+}
+
+.speedrunsname{
+    width: 25%;
+}
+
+.platzierung{
+    width: 100px;
 }
 
 tr:nth-child(even){
@@ -347,4 +370,43 @@ th{
 
 .gamesName{
     width: 40%;
+}
+
+#anmeldebutton{
+    color: white;
+    text-align: center;
+    float: right;
+    font-size: 70%;
+    padding-right: 15px;
+    padding-left: 15px;
+    border-color: #85200C;
+    border-style: double;
+    border-top: none;
+    border-right: none;
+    box-sizing: border-box;
+}
+
+#anmeldebutton:hover{
+    color: black;
+}
+
+.button1{
+    width: 33%;
+}
+
+.button1:hover{
+    background-color: #83d161;
+    width: 33%;
+}
+
+.anmeldedialog > td{
+    border:none;
+    width: 50%;
+}
+
+.anmeldedialog:nth-child(even){
+    background-color: transparent;
+}
+.anmeldedialog:nth-child(odd){
+    background-color: transparent;
 }

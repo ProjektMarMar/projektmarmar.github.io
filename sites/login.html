@@ -1,0 +1,51 @@
+<html lang="de">
+<head>
+<title>ProjektMarMar</title>
+<link rel="stylesheet" href="../style/style.css">
+<meta charset="UTF-8">
+</head>
+<body>
+    <div id="content">
+        <div id="kopf">
+            <div id="titel">
+                <img src="../src/MarMarLogo.png" alt="MarMar Logo" style="width: auto; height: 80px;">
+            </div>
+        </div>
+        <div id="körper">
+            <div class="block" id="nav">
+                <button onclick="history.back()">Zurück</button>
+            </div>
+            <div class="block" id="inhalt">
+                <div class="absatzcenter">
+                    <form action="login.php" method="post">
+                        <div class="headline">
+                            Login
+                        </div>
+                        <br>
+                        <table>
+                            <tr class="anmeldedialog">
+                                <td><label for="username">Benutzername</label></td>
+                                <td><input type="text" name="username" placeholder="Benutzername" required></td>
+                            </tr>
+                            <tr class="anmeldedialog">
+                                <td><label for="password">Passwort</label></td>
+                                <td><input type="password" name="password" placeholder="Passwort" required></td>
+                            </tr>
+                        </table>
+                        <br>
+                        <br>
+                        <button type="submit" class="button1">Anmelden</button>
+                    </form>
+                </div>
+            </div>
+            <div class="block" id="navright">
+            </div>
+        </div>
+        <div id="footer">
+            <div class="textlink">
+            <a href="impressum.html"> Impressum</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
