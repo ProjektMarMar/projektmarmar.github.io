@@ -40,8 +40,12 @@ box-sizing: border-box;
 }
 
 #titel{
-    padding: 5px;
-    margin-left: 30px;
+    padding-top: 5px;
+    text-align: center;
+}
+
+#marmarbild{
+    position: relative;
 }
 
 .block{
@@ -379,11 +383,6 @@ th{
     font-size: 70%;
     padding-right: 15px;
     padding-left: 15px;
-    border-color: #85200C;
-    border-style: double;
-    border-top: none;
-    border-right: none;
-    box-sizing: border-box;
 }
 
 #anmeldebutton:hover{
@@ -409,4 +408,16 @@ th{
 }
 .anmeldedialog:nth-child(odd){
     background-color: transparent;
+}
+
+.logininfo{
+    color: white;
+    text-align: center;
+    float: right;
+    font-size: 70%;
+    padding-right: 15px;
+    padding-left: 15px;
+    border-color: beige;
+    border-style: solid;
+    border-width: 1px;
 }

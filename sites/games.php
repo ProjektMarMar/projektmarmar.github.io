@@ -17,8 +17,13 @@ session_start();
                 </div>
                 <div style="display:<?php echo (isset ($_SESSION['logged_in']) && $_SESSION['logged_in'] === true ) ? 'block' : 'none'; ?>" >
                     <a href="../php/logout.php" id="anmeldebutton">Logout &#8614;</a>
+                    <div class="logininfo">
+                        <?php if(isset ($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset ($_SESSION['username'])){
+                        echo ($_SESSION['username']);
+                        } ?>
+                    </div>
                 </div>
-                <img src="../src/MarMarLogo.png" alt="MarMar Logo" style="width: auto; height: 80px;">
+                <img src="../src/MarMarLogo.png" alt="MarMar Logo" style="width: auto; height: 80px; position: absolute;">
             </div>
         </div>
         <div id="körper">

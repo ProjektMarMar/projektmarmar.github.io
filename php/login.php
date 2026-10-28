@@ -14,10 +14,13 @@ $password = $_POST['password'] ?? '';
 $filter = ['name' => $username];
 $result = $collection->findOne($filter);
 
-if($result){
-    echo json_encode($result, JSON_PRETTY_PRINT);
-} else {
-    echo 'Document not found';
+if(isset ($result)){
+    if($result['name'] === $username && $result['pw'] === $password){
+        $_SESSION['logged_in'] = true;
+        $_SESSION['username'] = $result['name'];
+        header('Location: ../index.php');
+        exit;
+    }
 }
 
 #if($username == 'Solid' && $password == '12'){
