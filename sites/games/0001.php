@@ -7,7 +7,7 @@ session_start();
 <title>ProjektMarMar</title>
 <link rel="stylesheet" href="../../style/style.css">
 <meta charset="UTF-8">
-</head>
+</head> 
 <body>
     <div id="content">
         <div id="kopf">
