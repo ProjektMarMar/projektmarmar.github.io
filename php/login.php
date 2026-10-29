@@ -15,9 +15,10 @@ $filter = ['name' => $username];
 $result = $collection->findOne($filter);
 
 if(isset ($result)){
-    if($result['name'] === $username && $result['pw'] === $password){
+    if(password_verify($password, $result['pw'])) {
         $_SESSION['logged_in'] = true;
         $_SESSION['username'] = $result['name'];
+        $_SESSION['role'] = $result['role'];
         header('Location: ../index.php');
         exit;
     }
