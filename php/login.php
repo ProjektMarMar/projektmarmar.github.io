@@ -23,12 +23,6 @@ if(isset ($result)){
         exit;
     }
 }
-
-#if($username == 'Solid' && $password == '12'){
-#    $_SESSION['logged_in'] = true;
-#    header("Location: ../sites/games.php");
-#    exit;
-#} 
 ?>
 
 <html lang="de">

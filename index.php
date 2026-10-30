@@ -31,6 +31,9 @@ session_start();
                 <a href="" class="chosen">Startseite</a>
                 <a href="sites/marmar.php" class="link">Der MarMar</a>
                 <a href="sites/games.php" class="link">Games</a>
+                 <div style="display:<?php echo (isset ($_SESSION['logged_in']) && $_SESSION['logged_in'] === true &&  isset ($_SESSION['role']) && $_SESSION['role'] === 'ADMIN') ? 'block' : 'none'; ?>" >
+                    <a href="sites/admin.php" class="link">Admin-Konfig</a>
+                 </div>
             </div>
             <div class="block" id="inhalt">
                 <div class="absatzcenter">
