@@ -17,11 +17,10 @@ session_start();
                 </div>
                 <div style="display:<?php echo (isset ($_SESSION['logged_in']) && $_SESSION['logged_in'] === true ) ? 'block' : 'none'; ?>" >
                     <a href="../php/logout.php" id="anmeldebutton">Logout &#8614;</a>
-                    <div class="logininfo">
-                        <?php if(isset ($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset ($_SESSION['username'])){
-                        echo ($_SESSION['username']);
-                        } ?>
-                    </div>
+                    <?php if(isset ($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset ($_SESSION['username'])){
+                    echo ('<a href="user.php?name=' . $_SESSION['username'] .'" class="logininfo">');
+                    echo ($_SESSION['username'] . "</a>");
+                    } ?>
                 </div>
                 <img src="../src/MarMarLogo.png" alt="MarMar Logo" style="width: auto; height: 80px; position: absolute;">
             </div>
@@ -53,8 +52,8 @@ session_start();
                             <th>Guide vorhanden?</th>
                             <th>Review vorhanden?</th>
                             <tr>
-                                <td class="gamesName"><a href="games/0001.php" class="tabellenlink">Super Mario Bros.</a></td>
-                                <td class="gamesIcon"><a href="games/0001.php"><img src="../src/listIcons/Icon_SuperMarioBros.png" alt="SuperMarioBros. Titlescreen" style="width: auto; height: 25px;"></a></td>
+                                <td class="gamesName"><a href="games/main.php?game=0001" class="tabellenlink">Super Mario Bros.</a></td>
+                                <td class="gamesIcon"><a href="games/main.php"><img src="../src/listIcons/Icon_SuperMarioBros.png" alt="SuperMarioBros. Titlescreen" style="width: auto; height: 25px;"></a></td>
                                 <td class="checkmark"><img src="../src/checkFalse.png" alt="false Checkmark" style="width: auto; height: 20px;"></td>
                                 <td class="checkmark"><img src="../src/checkFalse.png" alt="false Checkmark" style="width: auto; height: 20px;"></td>
                                 <td class="checkmark"><img src="../src/checkFalse.png" alt="false Checkmark" style="width: auto; height: 20px;"></td>

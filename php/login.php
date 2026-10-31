@@ -11,14 +11,19 @@ $collection = $client->security->loginitem;
 $username = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
 
-$filter = ['name' => $username];
+$filter = ['email' => $username];
 $result = $collection->findOne($filter);
 
 if(isset ($result)){
     if(password_verify($password, $result['pw'])) {
         $_SESSION['logged_in'] = true;
         $_SESSION['username'] = $result['name'];
+        $_SESSION['email'] = $result['email'];
         $_SESSION['role'] = $result['role'];
+        $_SESSION['favgame'] = $result['favgame'];
+        $_SESSION['favfranchise'] = $result['favfranchise'];
+        $_SESSION['icon'] = $result['icon'];
+        $_SESSION['desc'] = $result['desc'];
         header('Location: ../index.php');
         exit;
     }

@@ -1,6 +1,8 @@
 <?php
 session_name('marmar');
 session_start();
+
+$game = htmlspecialchars($_GET["game"]);
 ?>
 <html lang="de">
 <head>
@@ -17,11 +19,10 @@ session_start();
                 </div>
                 <div style="display:<?php echo (isset ($_SESSION['logged_in']) && $_SESSION['logged_in'] === true ) ? 'block' : 'none'; ?>" >
                     <a href="../../php/logout.php" id="anmeldebutton">Logout &#8614;</a>
-                    <div class="logininfo">
-                        <?php if(isset ($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset ($_SESSION['username'])){
-                        echo ($_SESSION['username']);
-                        } ?>
-                    </div>
+                    <?php if(isset ($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset ($_SESSION['username'])){
+                    echo ('<a href="../user.php?name=' . $_SESSION['username'] .'" class="logininfo">');
+                    echo ($_SESSION['username'] . "</a>");
+                    } ?>
                 </div>
                 <img src="../../src/MarMarLogo.png" alt="MarMar Logo" style="width: auto; height: 80px; position: absolute;">
             </div>
@@ -32,6 +33,7 @@ session_start();
             </div>
             <div class="block" id="inhalt">
                 <div class="absatzgames">
+                    <?php echo($game); ?>
                     <div class="infobox">
                         <img src="../../src/listIcons/Icon_SuperMarioBros.png" alt="SuperMarioBros. Titlescreen" style="width: 100%; height: auto;">
                         <div class="bildinfos">Screenshot aus: Super Mario Bros. Urheber: Nintendo</div>

@@ -15,6 +15,7 @@ if(!isset($_SESSION['role']) || $_SESSION['role'] !== 'ADMIN'){
 $uri = $env['MONGODB_URI'];
 $client = new MongoDB\Client($uri);
 $collection = $client->security->loginitem;
+$mailpw = $env['MAIL_PW'];
 
 $name = $_POST['name'] ?? '';
 $email = $_POST['email'] ?? '';
@@ -28,7 +29,7 @@ $uniquename = $collection ->findOne($filtername);
 
 if(!isset($uniqueemail) && !isset($uniquename)){
 
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZäöüÄÖÜ';
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-()';
     $length = strlen($characters);
     $randompw = '';
 
@@ -36,22 +37,21 @@ if(!isset($uniqueemail) && !isset($uniquename)){
         $randompw .= $characters[random_int(0, $length - 1)];
     }
 
-    // $mail = new PHPMailer(true);
-
-    // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
-    // $mail->isSMTP();
-    // $mail->Host = 'localhost';
-    // $mail->Port = '25';
-    // $mail->Username = 'MarMar';
-    // $mail->Password = '123';
-    // $mail->SMTPAuth = true;
-    // $mail->CharSet = PHPMailer::CHARSET_UTF8;
-    // $mail->setFrom('projektmarmar@gmx.net', 'Projekt MarMar');
-    // $mail->addAddress($email);
-    // $mail->addReplyTo('projektmarmar@gmx.net', 'Projekt MarMar');
-    // $mail->Subject = 'Registrierung für MarMar';
-    // $mail->Body = "Herzlich Willkommen im MarMar!\r\n \r\nDu wurdest für die MarMar-Webseite registriert. Untenstehend findest du deine Anmeldedaten.\r\n \r\nBenutzername: " . $email . "\r\nPasswort: " . $randompw . "\r\n \r\nUnter ++Platzhalter++ kannst du dich anmelden.";
-    // $mail->send();
+    $mail = new PHPMailer(true);
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+    $mail->isSMTP();
+    $mail->Host = 'mail.gmx.net';
+    $mail->Port = '587';
+    $mail->Username = 'projektmarmar@gmx.net';
+    $mail->Password = $mailpw;
+    $mail->SMTPAuth = true;
+    $mail->CharSet = PHPMailer::CHARSET_UTF8;
+    $mail->setFrom('projektmarmar@gmx.net', 'Projekt MarMar');
+    $mail->addAddress($email);
+    $mail->addReplyTo('projektmarmar@gmx.net', 'Projekt MarMar');
+    $mail->Subject = 'Registrierung für MarMar';
+    $mail->Body = "Herzlich Willkommen im MarMar!\r\n \r\nDu wurdest für die MarMar-Webseite registriert. Untenstehend findest du deine Anmeldedaten.\r\n \r\nBenutzername: " . $email . "\r\nPasswort: " . $randompw . "\r\n \r\nUnter ++Platzhalter++ kannst du dich anmelden.";
+    $mail->send();
 
     //$nachricht = "Herzlich Willkommen im MarMar!\r\n \r\nDu wurdest für die MarMar-Webseite registriert. Untenstehend findest du deine Anmeldedaten.\r\n \r\nBenutzername: " . $email . "\r\nPasswort: " . $randompw . "\r\n \r\nUnter ++Platzhalter++ kannst du dich anmelden.";
     //$nachricht = wordwrap($nachricht, 70, "\r\n");
@@ -63,9 +63,10 @@ if(!isset($uniqueemail) && !isset($uniquename)){
 
     $pwhash = password_hash($randompw, PASSWORD_DEFAULT);
 
-    $result = $collection->insertOne(['name' => $name, 'pw' => $pwhash, 'role' => $role, 'email' => $email]);
+    $result = $collection->insertOne(['name' => $name, 'pw' => $pwhash, 'role' => $role, 'email' => $email, 'favgame' => '', 'favfranchise' => '', 'icon' => '', 'desc' => '']);
 
     header("Location: ../index.php");
+    exit;
 }
 ?>
 
@@ -84,7 +85,7 @@ if(!isset($uniqueemail) && !isset($uniquename)){
         </div>
         <div id="körper">
             <div class="block" id="nav">
-                <a href="../sites/login.html" class="link">Zurück zur Anmeldung</a>
+                <a href="../sites/admin.php" class="link">Zurück zur Admin-Konfig</a>
             </div>
             <div class="block" id="inhalt">
                 <div class="absatzcenter">
