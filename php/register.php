@@ -10,6 +10,7 @@ session_start();
 
 if(!isset($_SESSION['role']) || $_SESSION['role'] !== 'ADMIN'){
     header('Location: ../index.php');
+    exit;
 }
 
 $uri = $env['MONGODB_URI'];

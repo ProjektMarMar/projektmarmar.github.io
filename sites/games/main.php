@@ -21,6 +21,13 @@ $game = htmlspecialchars($_GET["game"]);
                     <a href="../../php/logout.php" id="anmeldebutton">Logout &#8614;</a>
                     <?php if(isset ($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset ($_SESSION['username'])){
                     echo ('<a href="../user.php?name=' . $_SESSION['username'] .'" class="logininfo">');
+                    echo('<img src="../../src/usericons/');
+                    if($_SESSION['icon'] === ''){
+                         echo('icon_default.png');
+                    }else{
+                        echo($_SESSION['icon'] . '.png');
+                    }
+                    echo('"  style="width: 20px; height: 20px; margin-right: 5px; margin-top: 5px; border-radius: 10px;">'); 
                     echo ($_SESSION['username'] . "</a>");
                     } ?>
                 </div>

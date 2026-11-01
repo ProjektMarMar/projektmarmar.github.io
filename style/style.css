@@ -421,3 +421,52 @@ th{
     border-style: solid;
     border-width: 1px;
 }
+
+
+.userdata{
+    width: 60%;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    padding: 0;
+    margin: 0;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    border-collapse: collapse;
+}
+
+.userdataname{
+    width: 25%;
+}
+
+.dataselect{
+    width: 80%;
+    font-size: 100%;
+    text-align: center;
+}
+
+.beschreibung{
+    margin-left: 10px;
+    width: 60%;
+    font-size: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.benutzericonedit{
+    margin-left: 10px;
+    margin-bottom: -20px;
+}
+
+.benutzericonshow{
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.benutzericonselect{
+    width: 50%;
+    font-size: 100%;
+    text-align: center;
+    margin-bottom: 50px;
+    margin-left: 10px;
+}

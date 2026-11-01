@@ -10,6 +10,7 @@ $client = new MongoDB\Client($uri);
 $collection = $client->security->loginitem;
 $collection2 = $client->security->franchise;
 $collection3 = $client->security->game;
+$collectionicon = $client->security->usericon;
 
 $name = $_SESSION['username']?? '';
 $email = $_SESSION['email']?? '';
@@ -18,7 +19,14 @@ $favfranchise = $_SESSION['favfranchise']?? '';
 $icon = $_SESSION['icon']?? '';
 $desc = $_SESSION['desc']?? '';
 
+if(!isset($_GET["name"])){
+     header('Location: ../index.php');
+     exit;
+}
+
 $clickedname = htmlspecialchars($_GET["name"]);
+
+
 
 $filter = ['name' => $clickedname];
 $result = $collection->findOne($filter);
@@ -38,6 +46,7 @@ if ($result['favgame'] !== ''){
 
 $gesamtresult2 = $collection2->find();
 $gesamtresult3 = $collection3->find();
+$gesamtusericon = $collectionicon->find();
 
 ?>
 <html lang="de">
@@ -57,6 +66,13 @@ $gesamtresult3 = $collection3->find();
                     <a href="../php/logout.php" id="anmeldebutton">Logout &#8614;</a>
                     <a href="" class="logininfo">
                     <?php if(isset ($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset ($_SESSION['username'])){
+                    echo('<img src="../src/usericons/');
+                    if($_SESSION['icon'] === ''){
+                         echo('icon_default.png');
+                    }else{
+                        echo($_SESSION['icon'] . '.png');
+                    }
+                    echo('"  style="width: 20px; height: 20px; margin-right: 5px; margin-top: 5px; border-radius: 10px;">');   
                     echo ($_SESSION['username']);
                     } ?>
                     </a>
@@ -67,26 +83,57 @@ $gesamtresult3 = $collection3->find();
         <div id="körper">
             <div class="block" id="nav">
                 <a href="../index.php" class="link">Startseite</a>
-                <a href="" class="chosen">Der MarMar</a>
-                <a href="games.php" class="link">Games</a>
             </div>
             <div class="block" id="inhalt">
                 <div class="absatzcenter">
                     <br>
                     <div class="headline">
-                        <?php 
+                        <?php
                         echo($result['name']);
                         ?>
                     </div>
                     <br>
                     <br>
+                    <div>
+                    <?php 
+                    if($clickedname === $name){
+                        echo('<select name="icon" class="benutzericonselect">');
+                        echo('<option value="-"');
+                        if($result['icon'] === ''){
+                            echo(' selected="selected"');
+                        }
+                        echo('>-</option>');
+                        foreach($gesamtusericon as $usericon){
+                            echo('<option value="' . $usericon['uiid'] .'"');
+                            if($usericon['uiid'] === $result['icon']){
+                                echo(' selected="selected"');
+                            }
+                            echo('>' . $usericon['name'] . '</option>');
+                        }
+                        echo("</select>");
+                    } 
+                    echo('<img src="../src/usericons/');
+                    if($result['icon'] === ''){
+                         echo('icon_default.png');
+                    }else{
+                        echo($result['icon'] . '.png');
+                    }
+                    echo('"  style="width: 80px; height: 80px;"');
+                    if($clickedname === $name){
+                        echo('class="benutzericonedit"');
+                    }else{
+                        echo('class="benutzericonshow"');
+                    }
+                    echo('><br>');
+                    ?>
+                    </div>
                     <table class="userdata">
                         <tr>
-                            <td class=""userdataname>Lieblingsspiel:</td>
+                            <td class="userdataname">Lieblingsspiel:</td>
                             <td class="userdataattribut">
                                 <?php
                                 if($clickedname === $name){
-                                    echo('<select name="game">');
+                                    echo('<select name="game" class="dataselect">');
                                     echo('<option value="-"');
                                     if($result3['name'] === '-'){
                                         echo(' selected="selected"');
@@ -107,11 +154,11 @@ $gesamtresult3 = $collection3->find();
                             </td>
                         </tr>
                         <tr>
-                            <td class=""userdataname>Lieblingsfranchise:</td>
+                            <td class="userdataname">Lieblingsfranchise:</td>
                             <td class="userdataattribut">
                                 <?php
                                 if($clickedname === $name){
-                                    echo('<select name="franchise">');
+                                    echo('<select name="franchise" class="dataselect">');
                                     echo('<option value="-"');
                                     if($result2['name'] === '-'){
                                         echo(' selected="selected"');
@@ -132,6 +179,15 @@ $gesamtresult3 = $collection3->find();
                             </td>
                         </tr>
                     </table>
+                    <br>
+                    Beschreibung (max. 250 Zeichen):<br>
+                    <?php
+                    echo('<textarea class="beschreibung" name="beschreibung" rows="4" cols="50" maxlength="250" ');
+                    if($clickedname !== $name){
+                        echo('readonly');
+                    }
+                    echo('>' . $result['desc'] . '</textarea>');
+                    ?>
                 </div>
             </div>
             <div class="block" id="navright">
