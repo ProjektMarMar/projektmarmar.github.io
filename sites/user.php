@@ -8,9 +8,12 @@ session_start();
 $uri = $env['MONGODB_URI'];
 $client = new MongoDB\Client($uri);
 $collection = $client->security->loginitem;
-$collection2 = $client->security->franchise;
-$collection3 = $client->security->game;
-$collectionicon = $client->security->usericon;
+$collection_franchise = $client->security->franchise;
+$collection_game = $client->security->game;
+$collection_icon = $client->security->usericon;
+$collection_erfolg = $client->security->erfolg;
+$collection_usererfolg = $client->security->usererfolg;
+$collection_reward = $client->security->reward;
 
 $name = $_SESSION['username']?? '';
 $email = $_SESSION['email']?? '';
@@ -20,8 +23,8 @@ $icon = $_SESSION['icon']?? '';
 $desc = $_SESSION['desc']?? '';
 
 if(!isset($_GET["name"])){
-     header('Location: ../index.php');
-     exit;
+    header('Location: ../index.php');
+    exit;
 }
 
 $clickedname = htmlspecialchars($_GET["name"]);
@@ -30,23 +33,45 @@ $clickedname = htmlspecialchars($_GET["name"]);
 
 $filter = ['name' => $clickedname];
 $result = $collection->findOne($filter);
+if(!isset($result)){
+    header('Location: ../index.php');
+    exit;
+}
 if ($result['favfranchise'] !== ''){
     $filterfranchise = ['fid' => $result['favfranchise']];
-    $result2 = $collection2->findOne($filterfranchise);
+    $result2 = $collection_franchise->findOne($filterfranchise);
 }else{
     $result2['name'] = '-';
 }
 
 if ($result['favgame'] !== ''){
     $filtergame = ['gameid' => $result['favgame']];
-    $result3 = $collection3->findOne($filtergame);
+    $result3 = $collection_game->findOne($filtergame);
 }else{
     $result3['name'] = '-';
 }
 
-$gesamtresult2 = $collection2->find();
-$gesamtresult3 = $collection3->find();
-$gesamtusericon = $collectionicon->find();
+$filter_usererfolg = ['personid' => $result['_id']];
+
+$gesamtresult_franchise = $collection_franchise->find();
+$gesamtresult_game = $collection_game->find();
+$gesamtresult_icon = $collection_icon->find();
+$gesamtresult_usererfolg = $collection_usererfolg->find($filter_usererfolg);
+$gesamtresult_usererfolg2 = $collection_usererfolg->find($filter_usererfolg);
+
+$i = 0;
+foreach($gesamtresult_usererfolg2 as $ue){
+    $fe = ['erfolgid' => $ue['erfolgid']];
+    $e = $collection_erfolg->findOne($fe);
+    if($e['rewardid'] !== ''){
+        $reward = $e['rewardid'];
+        $rewards[] = [$i => $reward];
+        
+    }else{
+        $i--;
+    }
+    $i = $i + 1;
+}
 
 ?>
 <html lang="de">
@@ -97,18 +122,25 @@ $gesamtusericon = $collectionicon->find();
                     <div>
                     <?php 
                     if($clickedname === $name){
+                        echo('<form action="../php/useredit.php" method="post">');
                         echo('<select name="icon" class="benutzericonselect">');
                         echo('<option value="-"');
                         if($result['icon'] === ''){
                             echo(' selected="selected"');
                         }
                         echo('>-</option>');
-                        foreach($gesamtusericon as $usericon){
+                        $i = 0;
+                        foreach($rewards as $r => $t){
+                            $fr = ['rewardid' => $t[$i]];
+                            $userrewards = $collection_reward->findOne($fr);
+                            $fi = ['uiid' => $userrewards['iconid']];
+                            $usericon = $collection_icon->findOne($fi);
                             echo('<option value="' . $usericon['uiid'] .'"');
                             if($usericon['uiid'] === $result['icon']){
-                                echo(' selected="selected"');
-                            }
-                            echo('>' . $usericon['name'] . '</option>');
+                                 echo(' selected="selected"');
+                             }
+                             echo('>' . $usericon['name'] . '</option>');
+                             $i++;
                         }
                         echo("</select>");
                     } 
@@ -139,7 +171,7 @@ $gesamtusericon = $collectionicon->find();
                                         echo(' selected="selected"');
                                     }
                                     echo('>-</option>');
-                                    foreach($gesamtresult3 as $game){
+                                    foreach($gesamtresult_game as $game){
                                         echo('<option value="' . $game['gameid'] .'"');
                                         if($game['gameid'] === $result['favgame']){
                                             echo(' selected="selected"');
@@ -164,7 +196,7 @@ $gesamtusericon = $collectionicon->find();
                                         echo(' selected="selected"');
                                     }
                                     echo('>-</option>');
-                                    foreach($gesamtresult2 as $franchise){
+                                    foreach($gesamtresult_franchise as $franchise){
                                         echo('<option value="' . $franchise['fid'] .'"');
                                         if($franchise['fid'] === $result['favfranchise']){
                                             echo(' selected="selected"');
@@ -180,6 +212,27 @@ $gesamtusericon = $collectionicon->find();
                         </tr>
                     </table>
                     <br>
+                    Erfolge:
+                    <br>
+                    <table class="erfolge">
+                        <tr>
+                    <?php 
+                    $zeilencounter = 0;
+                    foreach($gesamtresult_usererfolg as $user_erfolg){
+                        $zeilencounter = $zeilencounter + 1;
+                        if($zeilencounter > 5){
+                            echo('</tr><tr>');
+                            $zeilencounter = 0;
+                        }
+                        
+                        $filter_erfolg = ['erfolgid' => $user_erfolg['erfolgid']];
+                        $erfolg = $collection_erfolg->findOne($filter_erfolg);
+
+                        echo('<td class="erfolgeicon"><img src="../src/medals/'. $erfolg['medalid'] .'.png" style="width: 50px; height: 50px;" title="'. $erfolg['name'] .'"></td>');
+                    }
+                    ?>
+                        </tr>
+                    </table>
                     Beschreibung (max. 250 Zeichen):<br>
                     <?php
                     echo('<textarea class="beschreibung" name="beschreibung" rows="4" cols="50" maxlength="250" ');
@@ -187,6 +240,9 @@ $gesamtusericon = $collectionicon->find();
                         echo('readonly');
                     }
                     echo('>' . $result['desc'] . '</textarea>');
+                    if($clickedname === $name){
+                        echo('<br><br> <button type="submit" class="button2">Speichern</button></form>');
+                    }
                     ?>
                 </div>
             </div>
