@@ -57,6 +57,28 @@ if(!isset($_SESSION['role']) || $_SESSION['role'] !== 'ADMIN'){
                         <br>
                         <button type="submit" class="button1">Registrieren</button>
                     </form>
+                    <br>
+                    <br>
+                    <div class="headline">
+                        Neues Profilbild hochladen
+                    </div>
+                    <br>
+                    <?php 
+                    $icon_ordner = '../src/usericons';
+
+                    
+                    echo('<br><br>Bisher hochgeladene Bilder:');
+                    if(is_dir($icon_ordner)){
+                        $icons = scandir($icon_ordner);
+                        echo('<ul>');
+                        foreach($icons as $icon){
+                            if($icon !== '.' && $icon !== '..'){
+                                echo('<li>' . htmlspecialchars($icon) . '</li>');
+                            }
+                        }
+                        echo('</ul>');
+                    }
+                    ?>
                 </div>
             </div>
             <div class="block" id="navright">

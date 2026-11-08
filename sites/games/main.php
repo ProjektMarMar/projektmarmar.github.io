@@ -1,8 +1,31 @@
 <?php
+require_once __DIR__ . '/../../vendor/autoload.php';
+$env = parse_ini_file ('../../env/data.env');
+
 session_name('marmar');
 session_start();
 
-$game = htmlspecialchars($_GET["game"]);
+$uri = $env['MONGODB_URI'];
+$client = new MongoDB\Client($uri);
+
+$clicked_game = htmlspecialchars($_GET["game"]);
+
+$collection_game = $client->security->game;
+$collection_guide = $client->security->guide;
+$collection_review = $client->security->review;
+$collection_speedrun_kategorie = $client->security->speedrunkategorie;
+$collection_speedrun = $client->security->speedrun;
+$collection_user = $client->security->loginitem;
+
+$filter_game = ['gameid' => $clicked_game];
+$game = $collection_game->findOne($filter_game);
+$guides = $collection_guide->find($filter_game);
+$reviews = $collection_review->find($filter_game);
+$speedrun_kategorien = $collection_speedrun_kategorie->find($filter_game);
+
+if(!isset($game)){
+    header('Location: ../games.php');
+}
 ?>
 <html lang="de">
 <head>
@@ -40,57 +63,60 @@ $game = htmlspecialchars($_GET["game"]);
             </div>
             <div class="block" id="inhalt">
                 <div class="absatzgames">
-                    <?php echo($game); ?>
                     <div class="infobox">
-                        <img src="../../src/listIcons/Icon_SuperMarioBros.png" alt="SuperMarioBros. Titlescreen" style="width: 100%; height: auto;">
-                        <div class="bildinfos">Screenshot aus: Super Mario Bros. Urheber: Nintendo</div>
-                        <table class="infotext">
-                            <tr>
-                                <td class="infotextname">Name</td>
-                                <td class="infotextattribut">Super Mario Bros.</td>
-                            </tr>
-                            <tr>
-                                <td class="infotextname">Konsole</td>
-                                <td class="infotextattribut">Famicom, Nintendo Entertainment System (NES)</td>
-                            </tr>
-                            <tr>
-                                <td class="infotextname">Genre</td>
-                                <td class="infotextattribut">2D Platformer</td>
-                            </tr>
-                            <tr>
-                                <td class="infotextname">Entwickler</td>
-                                <td class="infotextattribut">Systems Research & Development</td>
-                            </tr>
-                            <tr>
-                                <td class="infotextname">Publisher</td>
-                                <td class="infotextattribut">Nintendo</td>
-                            </tr>
-                             <tr>
-                                <td class="infotextname">Veröffentlichung</td>
-                                <td class="infotextattribut">Juni 1986</td>
-                            </tr>
-                        </table>
+                        <?php
+
+                        echo('<img src="../../src/listIcons/'. $game['gameid'] . '.png" alt="'. $game['name'] . ' Titlescreen" style="width: 100%; height: auto;">');
+                        echo('<div class="bildinfos">Screenshot aus: ' . $game['name'] .' Urheber: '. $game['publisher'] . '</div>');
+                        echo('<table class="infotext">');
+                        echo('<tr><td class="infotextname">Name</td><td class="infotextattribut">'. $game['name'] .'</tr>');
+                        echo('<tr><td class="infotextname">Konsole</td><td class="infotextattribut">');
+                        $i = 0;
+                        foreach($game['konsole'] as $konsole){
+                            if($i > 0){
+                                echo(', ');
+                            }
+                            echo($konsole);
+                            $i++;
+                        }
+                        echo('</td></tr>');
+                        echo('<tr><td class="infotextname">Genre</td><td class="infotextattribut">'. $game['genre'] .'</tr>');
+                        echo('<tr><td class="infotextname">Entwickler</td><td class="infotextattribut">'. $game['developer'] .'</tr>');
+                        echo('<tr><td class="infotextname">Publisher</td><td class="infotextattribut">'. $game['publisher'] .'</tr>');
+                        echo('<tr><td class="infotextname">Veröffentlichung</td><td class="infotextattribut">'. $game['releasedate'] .'</tr>');
+                        echo('</table>');
+                        ?>
                     </div>
                     <br>
                     <div class="headline" id="allgemein">
-                        Super Mario Bros.
+                        <?php echo($game['name']); ?>
                     </div>
                     <br>
                     <br>
-                    Hier werden ein paar allgemeine Informationen des ausgewählten Games hinterlegt. Aktuell fehlen diese noch und werden nachgereicht.
+                    <?php echo($game['content']); ?>
                     <br>
                     <br>
-                    Hier findest du die 100% Liste: <a href="" class="textlink2">Super Mario Bros. 100% Liste</a>
+                    <?php 
+                    if($game['liste'] !== ""){
+                        echo('Hier findest du die 100% Liste: <a href="'. $game['liste'] .'" class="textlink2" target="_blank">Super Mario Bros. 100% Liste</a>');
+                    } else{
+                        echo('Aktuell ist noch keine 100% Liste vorhanden');
+                    }
+                    ?>
                     <br>
                     <br>
                     Guides
                     <table id="guides">
                         <th>Name</th>
                         <th>Beschreibung</th>
-                        <tr>
-                            <td class="guidesname">++Platzhalter++</td>
-                            <td class="guidesdesc">++Platzhalter++</td>
-                        </tr>
+                        <?php 
+                        foreach($guides as $guide){
+                            echo('<tr>');
+                            echo('<td class="guidesname"><a href="guide.php?guide='. $guide['guideid'] . '" class="tabellenlink">' . $guide['name'] . '</a></td>');
+                            echo('<td class="guidesdesc">' . $guide['desc'] . '</td>');
+                            echo('</tr>');
+                        }
+                        ?>
                     </table>
                     <br>
                     <br>
@@ -98,15 +124,48 @@ $game = htmlspecialchars($_GET["game"]);
                     <table id="reviews">
                         <th>Name</th>
                         <th>Beschreibung</th>
-                        <tr>
-                            <td class="reviewsname">++Platzhalter++</td>
-                            <td class="reviewsdesc">++Platzhalter++</td>
-                        </tr>
+                        <?php 
+                        foreach($reviews as $review){
+                            echo('<tr>');
+                            echo('<td class="guidesname"><a href="review.php?review='. $review['reviewid'] . '" class="tabellenlink">' . $review['name'] . '</a></td>');
+                            echo('<td class="guidesdesc">' . $review['desc'] . '</td>');
+                            echo('</tr>');
+                        }
+                        ?>
                     </table>
                     <br>
                     <br>
                     <div id="speedruns">Speedrun Community-Rangliste</div>
-                    Kategorie: any%
+                    <?php
+                    foreach($speedrun_kategorien as $srk){
+                        echo('Kategorie: ' . $srk['name']);
+                        echo('<table class="speedruns">');
+                        echo('<th>Platzierung</th><th>Name</th><th>Zeit</th><th>Link</th>');
+                        $i = 1;
+                        $filter_speedrun = ['srkid' => $srk['srkid']];
+                        $options_speedrun = ['sort' =>['time' => 1]];
+                        $runs = $collection_speedrun->find($filter_speedrun, $options_speedrun);
+                        foreach($runs as $run){
+                            echo('<tr>');
+                            echo('<td class="platzierung">' . $i . '.</td>');
+                            $i++;
+                            $filter_runner = ['_id' => $run['runner']];
+                            $runner = $collection_user->findOne($filter_runner);
+                            echo('<td class="speedrunsname">' . $runner['name'] . '</td>');
+                            echo('<td>' . $run['time'] . '</td>');
+                            echo('<td class="reviewsdesc">');
+                            if($run['link'] !== ""){
+                                echo('<a href="' . $run['link'] . '" class="tabellenlink">Run ansehen</a>');
+                            }else{
+                                echo('kein Video vorhanden');
+                            }
+                            echo('</td>');
+                            echo('</tr>');
+                        }
+                        echo('</table>');
+                    }
+                    ?>
+                    <!-- Kategorie: any%
                     <table class="speedruns">
                         <th>Platzierung</th>
                         <th>Name</th>
@@ -118,7 +177,7 @@ $game = htmlspecialchars($_GET["game"]);
                             <td>00:00</td>
                             <td class="reviewsdesc">++Platzhalter++</td>
                         </tr>
-                    </table>
+                    </table> -->
                 </div>
             </div>
             <div class="block" id="navright">
